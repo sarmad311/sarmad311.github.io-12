@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asad Shahzad</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -106,17 +107,21 @@
 
         /* ================= Header ================= */
         .header {
-            height: 100vh;
-            background: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            animation: headerFixed 2s forwards;
-            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+            height: auto;
+            flex-direction: column;
+            padding: 2rem;
+            position: relative; /* instead of fixed */
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-container {
+                margin: 0 auto 1.5rem;
+            }
         }
 
         @keyframes headerFixed {
@@ -544,7 +549,7 @@
         #contact-info .contact-info-wrapper {
             background: var(--surface);
             padding: 3rem;
-            border-radius: 15px;
+            border-radius: 4%;
             text-align: center;
         }
 
@@ -558,7 +563,7 @@
         #contact-info .contact-item {
             flex-direction: column;
             text-align: center;
-            min-width: 200px;
+            min-width: 80%;
         }
 
         @media (max-width: 768px) {
