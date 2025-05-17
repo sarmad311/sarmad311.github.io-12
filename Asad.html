@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asad Shahzad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            border: 2px solid var(--background);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* ================= Scroll Progress ================= */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: 9999;
+            transition: width 0.2s ease-out;
+        }
+
+        /* ================= Smooth Scroll ================= */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        /* Update existing .section transition */
+        .section {
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), 
+                        opacity 0.8s ease, 
+                        transform 0.8s ease;
+        }
+
+
+        :root {
+            --primary: #00ff88;
+            --secondary: #00ccff;
+            --background: #0a0a0a;
+            --surface: #1a1a1a;
+            --text: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ================= Cursor System ================= */
+        .cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.75s ease-out;
+        }
+
+        .cursor-spark {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: spark 1.5s forwards;
+        }
+
+        @keyframes spark {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* ================= Header ================= */
+        .header {
+            height: 100vh;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            animation: headerFixed 2s forwards;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+        }
+
+        @keyframes headerFixed {
+            0%, 99.9% { position: fixed; }
+            100% { position: relative; }
+        }
+
+        .profile-container {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 40px rgba(0,255,136,0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @media (min-width: 768px) {
+            .profile-container {
+                margin-right: 110px;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(10%);
+        }
+
+        .header-content {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .name {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            animation: fadeUp 1s 0.5s forwards;
+            margin: 20px;
+        }
+
+        /* ================= Sections ================= */
+        #about {
+            border-radius: 15px;
+        }
+
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.38rem;
+        }
+
+        .skills-list {
+            columns: 2;
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .skills-list li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            color: var(--primary);
+        }
+
+        .skills-list li::before {
+            content: "▹";
+            position: absolute;
+            left: -1.2rem;
+            color: var(--secondary);
+        }
+
+        .certificates {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0,255,136,0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0,255,136,0.1);
+        }
+
+        .certificate-card {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .certificate-card:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .certificate-card a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .certificate-card a:hover {
+            color: var(--primary);
+        }
+
+        .certificate-date {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .skills-list {
+                columns: 1;
+            }
+            
+            .certificate-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }    
+        .main-content {
+            position: relative;
+            z-index: 100;
+            background: var(--background);
+        }
+
+        .section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        /* ================= Projects ================= */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            margin-top: 30px;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 2%;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tag-django { background: rgba(9,44,38,0.3); color: var(--primary); border: 1px solid var(--primary); }
+        .tag-react { background: rgba(0,113,188,0.3); color: var(--secondary); border: 1px solid var(--secondary); }
+        .tag-python { background: rgba(53,114,165,0.3); color: #4b8bbe; border: 1px solid #4b8bbe55; }
+        .tag-bootstrap { background: rgba(86,61,124,0.3); color: #7952b3; border: 1px solid #7952b355; }
+        .tag-js { background: rgba(247,223,30,0.3); color: #f7df1e; border: 1px solid #f7df1e55; }
+
+        .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .service-card h3 {
+            margin: 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-bottom: 45px;
+        }
+
+        /* ================= Skills ================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 1.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0,255,136,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translate(-150%, -150%); }
+            100% { transform: rotate(45deg) translate(150%, 150%); }
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .skill-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .category-framework { background: rgba(0,255,136,0.1); color: var(--primary); }
+        .category-language { background: rgba(0,204,255,0.1); color: var(--secondary); }
+        .category-tool { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* ================= Contact ================= */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0,255,136,0.05);
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #000;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,255,136,0.2);
+        }
+
+        /* ================= Responsive ================= */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+            }
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(10px);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-item a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .cv-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #000 !important;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .cv-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,255,136,0.2);
+        }
+
+        #contact-info .contact-info-wrapper {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        #contact-info .contact-info {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        #contact-info .contact-item {
+            flex-direction: column;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        @media (max-width: 768px) {
+            #contact-info .contact-info {
+                flex-direction: column;
+            }
+            
+            .contact-item {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="scroll-progress"></div>
+
+    <header class="skill-card header">
+        <div class="profile-container">
+            <img src="me.jpg" alt="John Doe" class="profile-img">
+        </div>
+        <div class="header-content">
+            <h1 class="name">Dr. Asad Shahzad</h1>
+            <p class="title">HOD - Centre for Policy and Area Studies</p>
+            
+            <!-- Header Contact Info -->
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:asad.shahzad@iobm.edu.pk">asad.shahzad@iobm.edu.pk</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+923223639369">+923223639369</a>
+                </div>
+                <a href="" class="cv-link">
+                    Download CV
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" id="about">
+        <div class="about-content">
+            <h2>About Me</h2>
+            <div class="about-text">
+                <p>I am currently Head of the Center for Policy and Area Studies at Institute of Business Management (IoBM). I hold a PhD and MS in Economics from Institute of Business Management. I earned my MA in English Literature from the University of Karachi. I have taught at several reputable educational institutes in Pakistan. I have also written articles for newspapers. I has presented papers at national and international conferences. My paper “Incoherences in Konrad Lorenz’s Concept of Aggression” has been cited in Jai Galliott’s Commercial Space Exploration: Ethics Policy and Governance. My paper “Iqbal’s Ideal Critique of Hawking’s Materialist Concept of Time” was published in Iqbal Review, April 2008 issue. My works have also been published in Pakistan Business Review, Business Review, and Journal of Education and Educational Development, Journal of Islamic Thought and Civilization. I received the best paper award (including all categories) in the area of General Management in the International Research Conference on Contemporary Management Practices 2013 held by Lahore University of Management Sciences (LUMS). I compose poetry in Urdu and have published a collection of my poetic works by the title, Saboocha. This collection includes Urdu translations of some of the world-renowned poets such as W.B. Yeats, T.S. Eliot and Robert Frost. My research works address contemporary economic, political, and moral issues with reference to pre-modern, modern and postmodern philosophy.</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <!-- Services Section -->
+    <section class="section" id="services">
+        <h2>Award & Distinction</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>I was the recipient of the best paper award (including all categories) in the area of General Management in the International Research Conference on Contemporary Management Practices 2013 held by Lahore University of Management Sciences (LUMS). The title of the paper was Metaphysical and Epistemological Presumptions of Business Ethics: Discourses and the Postmodernist Challenge, published in the book of proceedings of the conference.</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <h2>Analysis of a Research Work in a Book On Ethics, Policy, and Governance</h2>
+            <div class="project-card">
+                <img src="commercial.jpg" alt="E-commerce" class="project-image">
+                <h3>Commercial Space Exploration</h3>
+                <p>Published by Ashgate Publishing Company, USA</p>
+                <a href="ethics.pdf" class="cv-link" style="margin-top: 20px;">View</a>
+            </div>
+        </section>
+
+    <main class="main-content">
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <h2>Some Research works</h2>
+            <div class="project-card">
+                <img src="iq_page.jpg" alt="E-commerce" class="project-image">
+                <h3>Iqbal Review - 2008</h3>
+                <p>Iqbal's Idealist Critique of Hawking's Materialist Concept of Time</p>
+                <a href="iqbal.pdf" class="cv-link" style="margin-top: 20px;">View</a>
+            </div>
+            <div class="project-card" style="margin: 100px;">
+                <img src="kids.jpg" alt="E-commerce" class="project-image">
+                <h3>Incoherences in Konrad Lorenz's Concept of Aggression</h3>
+                <p>Pakistan Business Review - 2010</p>
+                <a href="konrad.pdf" class="cv-link" style="margin-top: 20px;">View</a>
+            </div>
+            <div class="project-card" style="margin: 100px;">
+                <img src="scale.jpg" alt="E-commerce" class="project-image">
+                <h3>A Critical Assessment of Amartya
+                    Sen's Comparative Model of Global
+                    Capitalist Economic Justice</h3>
+                <p>Pakistan Business Review - 2019</p>
+                <a href="sen.pdf" class="cv-link" style="margin-top: 20px;">View</a>
+            </div>
+            <div class="project-card" style="margin: 100px;">
+                <img src="parliament.jpg" alt="E-commerce" class="project-image">
+                <h3>Iqbal's Spiritual Democracy and Habermas's Deliberative Democracy: A Comparative Study</h3>
+                <p>Journal of Islamic Thought and Civilization (JITC) - 2024</p>
+                <a href="democracy.pdf" class="cv-link" style="margin-top: 20px;">View</a>
+            </div>
+        </section>
+    <main class="main-content">
+        <section class="section" id="projects">
+            <h2>Some Seminars & Invitations</h2>
+            <div class="project-card">
+                <img src="aerc.jpeg" alt="E-commerce" class="project-image">
+                <h3>Some Key Ideas of Adam Smith, Karl Marx, and Milton Friedman on Human Nature, Government, and Economy</h3>
+                <p>On January 7, 2025, the Applied Economics Research Centre (AERC) hosted an enlightening guest speaker session titled: "Some Key Ideas of Adam Smith, Karl Marx, and Milton Friedman on Human Nature, Government, and Economy".</p>
+                <a href="https://www.aerc.edu.pk/uncategorized/guest-speaker-session-by-dr-asad-shahzad-assistant-professor-hod-institute-of-business-management-organized-by-aerc-on-tuesday-january-07-2024/" class="cv-link" style="margin-top: 90px;">View</a>
+            </div>
+            <div class="project-card">
+                <img src="cpd.jpeg" alt="E-commerce" class="project-image">
+                <h3>Continuing Professional Development seminar held at IoBM</h3>
+                <p>The Department of Electrical Engineering at College of Engineering and Sciences-IoBM organized a Continuing Professional Development (CPD) seminar on Tuesday, September 28, 2021, at the EMEC Conference Room. Mr. Asad Shahzad was invited as a Speaker to talk on the "Philosophy of Technology." The program was attended by the Engineering Department Faculty, Engineers and students of Electrical Engineering and CS department. Dr. Seema Ansari, Associate Dean College of Engineering and Sciences (CES) / Program Coordinator/ PEB/PEC/CPD along with Dr. Imran Majid, HoD Electrical Engineering Department attended the Seminar</p>
+                <a href="https://www.iobm.edu.pk/news-events/detail/continuing-professional-development-seminar-held-at-iobm" class="cv-link" style="margin-top: 90px;">View</a>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2>Podcasts</h2>
+            <div class="project-card">
+                <img src="john.jpg" alt="E-commerce" class="project-image">
+                <h3>Urdu Aaj Kal EP 07 | Dr. Asad Shehzad | Jaun Elia</h3>
+                <p>Faraz sits down with Dr. Asad Shehzad, HoD Center for Area and Policy Studies at Institute of Business Management to discuss the life and poetry of Pakistani poet, philosopher, biographer, and scholar, Jaun Elia. 
+
+                    Urdu Aaj Kal is a podcast hosted by IoBM Media Studies faculty, screenwriter and poet Muhammad Faraz who sits with urdu poets and literary experts to discuss about modern urdu literature and language.
+                
+                    The podcast is produced by IoBM Media Studies Department</p>
+                <a href="https://www.youtube.com/watch?v=XmWdcVAphbw" class="cv-link" style="margin-top: 90px;">View</a>
+            </div>
+            <div class="project-card">
+                <img src="society.jpg" alt="E-commerce" class="project-image">
+                <h3>Urdu Aaj Kal | Ep 12 | Dr. Asad Shahzad | Societal Shifts</h3>
+                <p>In this compelling episode of Urdu Aaj Kal, host Muhammad Faraz welcomes Dr. Asad Shahzad to explore the various factors that shape and reshape our society.</p>
+                <a href="https://www.youtube.com/watch?v=bRNaBEiebQg" class="cv-link" style="margin-top: 90px;">View</a>
+            </div>
+        </section>
+
+        <section class="section" id="contact-info">
+            <div class="contact-info-wrapper">
+                <h2>Let's Connect</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:asad.shahzad@iobm.edu.pk">asad.shahzad@iobm.edu.pk</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+923223639369">+923223639369</a>
+                    </div>
+                    <a href="" class="cv-link" target="_blank">
+                        <i class="fas fa-file-pdf"></i>
+                        View Full CV
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const scrollProgress = document.querySelector('.scroll-progress');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - 
+                               document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = `${scrolled}%`;
+        });
+
+        // Enhanced Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Cursor System
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0, mouseY = 0;
+        let posX = 0, posY = 0;
+
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Create spark
+            const spark = document.createElement('div');
+            spark.className = 'cursor-spark';
+            spark.style.left = `${e.clientX - 4}px`;
+            spark.style.top = `${e.clientY - 4}px`;
+            document.body.appendChild(spark);
+            setTimeout(() => spark.remove(), 800);
+        });
+
+        const updateCursor = () => {
+            posX += (mouseX - posX - 15) * 0.15;
+            posY += (mouseY - posY - 15) * 0.15;
+            
+            cursor.style.transform = `translate(${posX}px, ${posY}px)`;
+            requestAnimationFrame(updateCursor);
+        };
+        updateCursor();
+
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Header Animation
+        setTimeout(() => {
+            const header = document.querySelector('.header');
+            header.style.position = 'sticky';
+            header.style.top = '0';
+            document.querySelector('.main-content').style.marginTop = '0';
+        }, 2000);
+    </script>
+</body>
+</html>
